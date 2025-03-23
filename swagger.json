@@ -1,0 +1,861 @@
+{
+  openapi: "3.0.1",
+  info: {
+    title: "Muleobara API 명세서",
+    description: "생활 속 무수한 결정을 정해드리는 서비스",
+    version: "1.0.0"
+  },
+  servers: [
+    {
+      url: "http://localhost:8080",
+      description: "Generated server url"
+    }
+  ],
+  security: [
+    {
+      JWT: [ ]
+    }
+  ],
+  tags: [
+    {
+      name: "카카오 로그인 및 회원가입",
+      description: "카카오 로그인 및 회원가입에 대한 API"
+    },
+    {
+      name: "인증",
+      description: "회원가입, 로그인, 토큰 재발급에 대한 API"
+    },
+    {
+      name: "목표",
+      description: "사용자의 목표에 대한 API"
+    },
+    {
+      name: "마이페이지",
+      description: "사용자의 마이페이지에 대한 API"
+    },
+    {
+      name: "MBTI",
+      description: "MBTI 정보에 대한 API"
+    },
+    {
+      name: "업적 달성",
+      description: "사용자의 업적 달성에 대한 API"
+    },
+    {
+      name: "GPT 추천",
+      description: "GPT 추천에 대한 API"
+    }
+  ],
+  paths: {
+    /users/mbti: {
+      get: {
+        tags: [
+          "MBTI"
+        ],
+        summary: "MBTI 정보 조회",
+        description: "MBTI 정보 조회",
+        operationId: "selectUsersMbti",
+        parameters: [
+          {
+            name: "user",
+            in: "query",
+            required: true,
+            schema: {
+              $ref: "#/components/schemas/User"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: [
+          "MBTI"
+        ],
+        summary: "MBTI 정보 저장",
+        description: "MBTI 정보 저장",
+        operationId: "saveMbti",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                type: "object",
+                properties: {
+                  user: {
+                    $ref: "#/components/schemas/User"
+                  },
+                  request: {
+                    $ref: "#/components/schemas/MbtiMakeRequest"
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /signup: {
+      post: {
+        tags: [
+          "인증"
+        ],
+        summary: "일반 회원가입",
+        description: "일반 회원가입",
+        operationId: "signup",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: "#/components/schemas/SignupRequest"
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  $ref: "#/components/schemas/SignupResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /refresh: {
+      post: {
+        tags: [
+          "인증"
+        ],
+        summary: "Refresh 토큰 재발급",
+        description: "Refresh 토큰 재발급",
+        operationId: "refreshAccessToken",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  $ref: "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /recommends/request: {
+      post: {
+        tags: [
+          "GPT 추천"
+        ],
+        summary: "선택 추천 받기",
+        description: "선택 추천 받기",
+        operationId: "recommend",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                type: "object",
+                properties: {
+                  user: {
+                    $ref: "#/components/schemas/User"
+                  },
+                  request: {
+                    $ref: "#/components/schemas/RecommendRequest"
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  $ref: "#/components/schemas/RspTemplateRecommendResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /login: {
+      post: {
+        tags: [
+          "인증"
+        ],
+        summary: "일반 로그인",
+        description: "일반 로그인",
+        operationId: "login",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  $ref: "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /goals/used: {
+      post: {
+        tags: [
+          "목표"
+        ],
+        summary: "목표 사용 여부 업데이트",
+        description: "사용자의 목표 사용 여부 업데이트",
+        operationId: "userGoalYNUpdate",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                type: "object",
+                properties: {
+                  user: {
+                    $ref: "#/components/schemas/User"
+                  },
+                  goalUsedYN: {
+                    $ref: "#/components/schemas/GoalYNUpdateDto"
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /goals/update: {
+      post: {
+        tags: [
+          "목표"
+        ],
+        summary: "목표 업데이트",
+        description: "사용자의 목표 업데이트",
+        operationId: "userGoalUpdate",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                type: "object",
+                properties: {
+                  user: {
+                    $ref: "#/components/schemas/User"
+                  },
+                  updateDto: {
+                    $ref: "#/components/schemas/GoalUpdateDto"
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/achievements/likes: {
+      get: {
+        tags: [
+          "업적 달성"
+        ],
+        summary: "좋아요 개수 조회",
+        description: "사용자의 좋아요 개수 조회",
+        operationId: "getLikeCount",
+        parameters: [
+          {
+            name: "user",
+            in: "query",
+            required: true,
+            schema: {
+              $ref: "#/components/schemas/User"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: [
+          "업적 달성"
+        ],
+        summary: "좋아요 추가",
+        description: "사용자의 좋아요 추가",
+        operationId: "addLike",
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /users/mbti/detail: {
+      get: {
+        tags: [
+          "MBTI"
+        ],
+        summary: "MBTI 상세 정보 조회",
+        description: "MBTI 상세 정보 조회",
+        operationId: "selectUsersMbtidetail",
+        parameters: [
+          {
+            name: "user",
+            in: "query",
+            required: true,
+            schema: {
+              $ref: "#/components/schemas/User"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /users/mbti/all: {
+      get: {
+        tags: [
+          "MBTI"
+        ],
+        summary: "모든 MBTI 정보 조회",
+        description: "모든 MBTI 정보 조회",
+        operationId: "getUserMbtiList",
+        parameters: [
+          {
+            name: "user",
+            in: "query",
+            required: true,
+            schema: {
+              $ref: "#/components/schemas/User"
+            }
+          },
+          {
+            name: "page",
+            in: "query",
+            required: false,
+            schema: {
+              type: "integer",
+              format: "int32",
+              default: 0
+            }
+          },
+          {
+            name: "size",
+            in: "query",
+            required: false,
+            schema: {
+              type: "integer",
+              format: "int32",
+              default: 10
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /mypage: {
+      get: {
+        tags: [
+          "마이페이지"
+        ],
+        summary: "닉네임 조회",
+        description: "사용자의 닉네임 조회",
+        operationId: "getNickname",
+        parameters: [
+          {
+            name: "user",
+            in: "query",
+            required: true,
+            schema: {
+              $ref: "#/components/schemas/User"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  $ref: "#/components/schemas/MyPageResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /goals/list: {
+      get: {
+        tags: [
+          "목표"
+        ],
+        summary: "목표 조회",
+        description: "사용자의 목표 조회",
+        operationId: "userGoalGetList",
+        parameters: [
+          {
+            name: "user",
+            in: "query",
+            required: true,
+            schema: {
+              $ref: "#/components/schemas/User"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  type: "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /callback: {
+      get: {
+        tags: [
+          "카카오 로그인 및 회원가입"
+        ],
+        summary: "카카오 로그인 및 회원가입",
+        description: "카카오 로그인 및 회원가입",
+        operationId: "kakaoLogin",
+        parameters: [
+          {
+            name: "code",
+            in: "query",
+            required: true,
+            schema: {
+              type: "string"
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              */*: {
+                schema: {
+                  $ref: "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      User: {
+        type: "object",
+        properties: {
+          createdAt: {
+            type: "string",
+            format: "date-time"
+          },
+          modifiedAt: {
+            type: "string",
+            format: "date-time"
+          },
+          id: {
+            type: "integer",
+            format: "int64"
+          },
+          email: {
+            type: "string"
+          },
+          password: {
+            type: "string"
+          },
+          nickname: {
+            type: "string"
+          },
+          userGoalYN: {
+            type: "string",
+            enum: [
+              "Y",
+              "N"
+            ]
+          },
+          role: {
+            type: "string",
+            enum: [
+              "ROLE_USER",
+              "ROLE_ADMIN"
+            ]
+          },
+          baseTickets: {
+            type: "integer",
+            format: "int32"
+          },
+          baseTicket: {
+            type: "integer",
+            format: "int32",
+            writeOnly: true
+          }
+        }
+      },
+      MbtiMakeRequest: {
+        type: "object",
+        properties: {
+          mbti: {
+            type: "string",
+            enum: [
+              "ENTP",
+              "INTP",
+              "ENTJ",
+              "INTJ",
+              "ENFP",
+              "INFP",
+              "ENFJ",
+              "INFJ",
+              "ESTP",
+              "ISTP",
+              "ESTJ",
+              "ISTJ",
+              "ESFP",
+              "ISFP",
+              "ESFJ",
+              "ISFJ"
+            ]
+          },
+          eiType: {
+            type: "string",
+            enum: [
+              "E",
+              "I"
+            ]
+          },
+          eiPercent: {
+            type: "integer",
+            format: "int64"
+          },
+          nsType: {
+            type: "string",
+            enum: [
+              "N",
+              "S"
+            ]
+          },
+          nsPercent: {
+            type: "integer",
+            format: "int64"
+          },
+          tfType: {
+            type: "string",
+            enum: [
+              "T",
+              "F"
+            ]
+          },
+          tfPercent: {
+            type: "integer",
+            format: "int64"
+          },
+          pjType: {
+            type: "string",
+            enum: [
+              "P",
+              "J"
+            ]
+          },
+          pjPercent: {
+            type: "integer",
+            format: "int64"
+          }
+        }
+      },
+      SignupRequest: {
+        required: [
+          "email",
+          "password"
+        ],
+        type: "object",
+        properties: {
+          email: {
+            type: "string"
+          },
+          password: {
+            type: "string"
+          }
+        }
+      },
+      GrantedAuthority: {
+        type: "object",
+        properties: {
+          authority: {
+            type: "string"
+          }
+        }
+      },
+      SignupResponse: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string"
+          },
+          authorities: {
+            type: "array",
+            items: {
+              $ref: "#/components/schemas/GrantedAuthority"
+            }
+          }
+        }
+      },
+      RefreshTokenRequest: {
+        required: [
+          "refreshToken"
+        ],
+        type: "object",
+        properties: {
+          refreshToken: {
+            type: "string"
+          }
+        }
+      },
+      TokenResponse: {
+        type: "object",
+        properties: {
+          accessToken: {
+            type: "string"
+          },
+          refreshToken: {
+            type: "string"
+          }
+        }
+      },
+      RecommendRequest: {
+        required: [
+          "choices"
+        ],
+        type: "object",
+        properties: {
+          setting: {
+            type: "string"
+          },
+          choices: {
+            type: "array",
+            items: {
+              type: "string"
+            }
+          },
+          retry: {
+            type: "string"
+          }
+        }
+      },
+      RecommendResponse: {
+        type: "object",
+        properties: {
+          choice: {
+            type: "string"
+          },
+          reason: {
+            type: "string"
+          }
+        }
+      },
+      RspTemplateRecommendResponse: {
+        type: "object",
+        properties: {
+          statusCode: {
+            type: "integer",
+            format: "int32"
+          },
+          message: {
+            type: "string"
+          },
+          data: {
+            $ref: "#/components/schemas/RecommendResponse"
+          }
+        }
+      },
+      LoginRequest: {
+        required: [
+          "email",
+          "password"
+        ],
+        type: "object",
+        properties: {
+          email: {
+            type: "string"
+          },
+          password: {
+            type: "string"
+          }
+        }
+      },
+      GoalYNUpdateDto: {
+        type: "object",
+        properties: {
+          goalYN: {
+            type: "boolean"
+          }
+        }
+      },
+      GoalUpdateDto: {
+        type: "object",
+        properties: {
+          goals: {
+            type: "array",
+            items: {
+              type: "string"
+            }
+          }
+        }
+      },
+      MyPageResponseDto: {
+        type: "object",
+        properties: {
+          nickname: {
+            type: "string"
+          },
+          answerResults: {
+            type: "object",
+            additionalProperties: {
+              type: "string"
+            }
+          }
+        }
+      }
+    },
+    securitySchemes: {
+      JWT: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT"
+      }
+    }
+  }
+}
