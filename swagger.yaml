@@ -3,11 +3,12 @@ info:
   title: Muleobara API 명세서
   description: 생활 속 무수한 결정을 정해드리는 서비스
   version: 1.0.0
-servers:
-  - url: http://localhost:8080
-    description: Generated server url
-security:
-  - JWT: []
+path: {}
+#servers:
+#  - url: http://localhost:8080
+#    description: Generated server url
+#security:
+#  - JWT: []
 tags:
   - name: 카카오 로그인 및 회원가입
     description: 카카오 로그인 및 회원가입에 대한 API
