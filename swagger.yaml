@@ -4,40 +4,35 @@ info:
   description: 생활 속 무수한 결정을 정해드리는 서비스
   version: 1.0.0
 path: {}
-#servers:
-#  - url: http://localhost:8080
-#    description: Generated server url
-#security:
-#  - JWT: []
 tags:
-  - name: 카카오 로그인 및 회원가입
-    description: 카카오 로그인 및 회원가입에 대한 API
-  - name: 인증
-    description: "회원가입, 로그인, 토큰 재발급에 대한 API"
-  - name: 목표
-    description: 사용자의 목표에 대한 API
-  - name: 마이페이지
-    description: 사용자의 마이페이지에 대한 API
-  - name: MBTI
-    description: MBTI 정보에 대한 API
-  - name: 업적 달성
-    description: 사용자의 업적 달성에 대한 API
-  - name: GPT 추천
-    description: GPT 추천에 대한 API
+- name: 카카오 로그인 및 회원가입
+  description: 카카오 로그인 및 회원가입에 대한 API
+- name: 인증
+  description: "회원가입, 로그인, 토큰 재발급에 대한 API"
+- name: 목표
+  description: 사용자의 목표에 대한 API
+- name: 마이페이지
+  description: 사용자의 마이페이지에 대한 API
+- name: MBTI
+  description: MBTI 정보에 대한 API
+- name: 업적 달성
+  description: 사용자의 업적 달성에 대한 API
+- name: GPT 추천
+  description: GPT 추천에 대한 API
 paths:
   /users/mbti:
     get:
       tags:
-        - MBTI
+      - MBTI
       summary: MBTI 정보 조회
       description: MBTI 정보 조회
       operationId: selectUsersMbti
       parameters:
-        - name: user
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/User"
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
       responses:
         "200":
           description: OK
@@ -47,7 +42,7 @@ paths:
                 type: object
     post:
       tags:
-        - MBTI
+      - MBTI
       summary: MBTI 정보 저장
       description: MBTI 정보 저장
       operationId: saveMbti
@@ -72,7 +67,7 @@ paths:
   /signup:
     post:
       tags:
-        - 인증
+      - 인증
       summary: 일반 회원가입
       description: 일반 회원가입
       operationId: signup
@@ -92,7 +87,7 @@ paths:
   /refresh:
     post:
       tags:
-        - 인증
+      - 인증
       summary: Refresh 토큰 재발급
       description: Refresh 토큰 재발급
       operationId: refreshAccessToken
@@ -112,7 +107,7 @@ paths:
   /recommends/request:
     post:
       tags:
-        - GPT 추천
+      - GPT 추천
       summary: 선택 추천 받기
       description: 선택 추천 받기
       operationId: recommend
@@ -137,7 +132,7 @@ paths:
   /login:
     post:
       tags:
-        - 인증
+      - 인증
       summary: 일반 로그인
       description: 일반 로그인
       operationId: login
@@ -157,7 +152,7 @@ paths:
   /goals/used:
     post:
       tags:
-        - 목표
+      - 목표
       summary: 목표 사용 여부 업데이트
       description: 사용자의 목표 사용 여부 업데이트
       operationId: userGoalYNUpdate
@@ -182,7 +177,7 @@ paths:
   /goals/update:
     post:
       tags:
-        - 목표
+      - 목표
       summary: 목표 업데이트
       description: 사용자의 목표 업데이트
       operationId: userGoalUpdate
@@ -204,19 +199,19 @@ paths:
             '*/*':
               schema:
                 type: object
-  /api/achievements/likes:
+  /achievements/likes:
     get:
       tags:
-        - 업적 달성
+      - 업적 달성
       summary: 좋아요 개수 조회
       description: 사용자의 좋아요 개수 조회
       operationId: getLikeCount
       parameters:
-        - name: user
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/User"
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
       responses:
         "200":
           description: OK
@@ -226,7 +221,7 @@ paths:
                 type: object
     post:
       tags:
-        - 업적 달성
+      - 업적 달성
       summary: 좋아요 추가
       description: 사용자의 좋아요 추가
       operationId: addLike
@@ -245,16 +240,16 @@ paths:
   /users/mbti/detail:
     get:
       tags:
-        - MBTI
+      - MBTI
       summary: MBTI 상세 정보 조회
       description: MBTI 상세 정보 조회
       operationId: selectUsersMbtidetail
       parameters:
-        - name: user
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/User"
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
       responses:
         "200":
           description: OK
@@ -265,30 +260,30 @@ paths:
   /users/mbti/all:
     get:
       tags:
-        - MBTI
+      - MBTI
       summary: 모든 MBTI 정보 조회
       description: 모든 MBTI 정보 조회
       operationId: getUserMbtiList
       parameters:
-        - name: user
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/User"
-        - name: page
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: size
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
       responses:
         "200":
           description: OK
@@ -299,16 +294,16 @@ paths:
   /mypage:
     get:
       tags:
-        - 마이페이지
+      - 마이페이지
       summary: 닉네임 조회
       description: 사용자의 닉네임 조회
       operationId: getNickname
       parameters:
-        - name: user
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/User"
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
       responses:
         "200":
           description: OK
@@ -319,16 +314,16 @@ paths:
   /goals/list:
     get:
       tags:
-        - 목표
+      - 목표
       summary: 목표 조회
       description: 사용자의 목표 조회
       operationId: userGoalGetList
       parameters:
-        - name: user
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/User"
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
       responses:
         "200":
           description: OK
@@ -336,19 +331,35 @@ paths:
             '*/*':
               schema:
                 type: object
+  /goals/active:
+    get:
+      tags:
+      - 목표
+      summary: 목표 조회
+      description: 현재 서비스중인 목표리스트 조회
+      operationId: getActiveGoals
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GoalEntityListResponseDto"
   /callback:
     get:
       tags:
-        - 카카오 로그인 및 회원가입
+      - 카카오 로그인 및 회원가입
       summary: 카카오 로그인 및 회원가입
       description: 카카오 로그인 및 회원가입
       operationId: kakaoLogin
       parameters:
-        - name: code
-          in: query
-          required: true
-          schema:
-            type: string
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -379,13 +390,13 @@ components:
         userGoalYN:
           type: string
           enum:
-            - "Y"
-            - "N"
+          - "Y"
+          - "N"
         role:
           type: string
           enum:
-            - ROLE_USER
-            - ROLE_ADMIN
+          - ROLE_USER
+          - ROLE_ADMIN
         baseTickets:
           type: integer
           format: int32
@@ -399,58 +410,58 @@ components:
         mbti:
           type: string
           enum:
-            - ENTP
-            - INTP
-            - ENTJ
-            - INTJ
-            - ENFP
-            - INFP
-            - ENFJ
-            - INFJ
-            - ESTP
-            - ISTP
-            - ESTJ
-            - ISTJ
-            - ESFP
-            - ISFP
-            - ESFJ
-            - ISFJ
+          - ENTP
+          - INTP
+          - ENTJ
+          - INTJ
+          - ENFP
+          - INFP
+          - ENFJ
+          - INFJ
+          - ESTP
+          - ISTP
+          - ESTJ
+          - ISTJ
+          - ESFP
+          - ISFP
+          - ESFJ
+          - ISFJ
         eiType:
           type: string
           enum:
-            - E
-            - I
+          - E
+          - I
         eiPercent:
           type: integer
           format: int64
         nsType:
           type: string
           enum:
-            - "N"
-            - S
+          - "N"
+          - S
         nsPercent:
           type: integer
           format: int64
         tfType:
           type: string
           enum:
-            - T
-            - F
+          - T
+          - F
         tfPercent:
           type: integer
           format: int64
         pjType:
           type: string
           enum:
-            - P
-            - J
+          - P
+          - J
         pjPercent:
           type: integer
           format: int64
     SignupRequest:
       required:
-        - email
-        - password
+      - email
+      - password
       type: object
       properties:
         email:
@@ -473,7 +484,7 @@ components:
             $ref: "#/components/schemas/GrantedAuthority"
     RefreshTokenRequest:
       required:
-        - refreshToken
+      - refreshToken
       type: object
       properties:
         refreshToken:
@@ -487,7 +498,7 @@ components:
           type: string
     RecommendRequest:
       required:
-        - choices
+      - choices
       type: object
       properties:
         setting:
@@ -517,8 +528,8 @@ components:
           $ref: "#/components/schemas/RecommendResponse"
     LoginRequest:
       required:
-        - email
-        - password
+      - email
+      - password
       type: object
       properties:
         email:
@@ -536,7 +547,8 @@ components:
         goals:
           type: array
           items:
-            type: string
+            type: integer
+            format: int64
     MyPageResponseDto:
       type: object
       properties:
@@ -546,6 +558,16 @@ components:
           type: object
           additionalProperties:
             type: string
+    GoalEntityListResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        category:
+          type: string
+        goalName:
+          type: string
   securitySchemes:
     JWT:
       type: http
