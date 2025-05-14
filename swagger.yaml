@@ -13,13 +13,164 @@ tags:
   description: 사용자의 목표에 대한 API
 - name: 마이페이지
   description: 사용자의 마이페이지에 대한 API
+- name: 커뮤니티 하단_게시글
+  description: "게시글 생성, 삭제, 수정, 조회 API"
 - name: MBTI
   description: MBTI 정보에 대한 API
+- name: 커뮤니티 하단_좋아요
+  description: 특정 글에 대한 좋아요 및 좋아요 취소 API
 - name: 업적 달성
   description: 사용자의 업적 달성에 대한 API
 - name: GPT 추천
   description: GPT 추천에 대한 API
+- name: 커뮤니티 하단_투표
+  description: "투표 생성, 수정, 조회 API"
 paths:
+  /posts/vote/{voteId}:
+    get:
+      tags:
+      - 커뮤니티 하단_투표
+      summary: 투표 조회
+      description: 투표를 조회합니다.
+      operationId: retrieveVote
+      parameters:
+      - name: voteId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/VoteResponse"
+    put:
+      tags:
+      - 커뮤니티 하단_투표
+      summary: 투표 수정
+      description: 투표를 수정합니다.
+      operationId: updateVote
+      parameters:
+      - name: voteId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
+                voteRequest:
+                  $ref: "#/components/schemas/VoteRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/VoteResponse"
+  /community/likes/{postId}:
+    put:
+      tags:
+      - 커뮤니티 하단_좋아요
+      summary: 좋아요
+      description: 특정 글에 좋아요를 추가하거나 취소합니다.
+      operationId: likePost
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LikeResponse"
+  /balance-game/:
+    get:
+      tags:
+      - balance-game-controller
+      operationId: getBalanceGame
+      parameters:
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
+      - name: date
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    put:
+      tags:
+      - balance-game-controller
+      operationId: updateGame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
+                request:
+                  $ref: "#/components/schemas/BalanceGameRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      tags:
+      - balance-game-controller
+      operationId: createGame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
+                request:
+                  $ref: "#/components/schemas/BalanceGameRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /users/mbti:
     get:
       tags:
@@ -199,6 +350,54 @@ paths:
             '*/*':
               schema:
                 type: object
+  /community/posts:
+    post:
+      tags:
+      - 커뮤니티 하단_게시글
+      summary: 게시글 생성
+      description: 게시글을 생성합니다.
+      operationId: createPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
+                request:
+                  $ref: "#/components/schemas/PostCreateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PostCreateResponse"
+  /balance-game/vote:
+    post:
+      tags:
+      - balance-game-controller
+      operationId: voteGame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
+                request:
+                  $ref: "#/components/schemas/BalanceGameVoteRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
   /achievements/likes:
     get:
       tags:
@@ -367,6 +566,24 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/TokenResponse"
+  /balance-game/today:
+    get:
+      tags:
+      - balance-game-controller
+      operationId: getTodaybalanceGame
+      parameters:
+      - name: user
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
 components:
   schemas:
     User:
@@ -404,6 +621,57 @@ components:
           type: integer
           format: int32
           writeOnly: true
+    VoteRequest:
+      type: object
+      properties:
+        voteType:
+          type: string
+          enum:
+          - A
+          - B
+    VoteResponse:
+      type: object
+      properties:
+        voteId:
+          type: integer
+          format: int64
+        voteA:
+          type: string
+        voteB:
+          type: string
+        voteACount:
+          type: integer
+          format: int32
+        voteBCount:
+          type: integer
+          format: int32
+        totalVoteCount:
+          type: number
+          format: double
+        voteAPercentage:
+          type: number
+          format: double
+        voteBPercentage:
+          type: number
+          format: double
+    LikeResponse:
+      type: object
+      properties:
+        likeCount:
+          type: integer
+          format: int32
+    BalanceGameRequest:
+      type: object
+      properties:
+        gameDate:
+          type: string
+          format: date
+        question:
+          type: string
+        optionA:
+          type: string
+        optionB:
+          type: string
     MbtiMakeRequest:
       type: object
       properties:
@@ -549,6 +817,67 @@ components:
           items:
             type: integer
             format: int64
+    PostCreateRequest:
+      required:
+      - content
+      - title
+      - voteForm
+      type: object
+      properties:
+        title:
+          type: string
+          description: 제목
+          example: 제목
+        content:
+          type: string
+          description: 내용
+          example: 내용
+        voteForm:
+          $ref: "#/components/schemas/VoteForm"
+      description: 커뮤니티 게시글 생성 요청
+    VoteForm:
+      required:
+      - voteA
+      - voteB
+      type: object
+      properties:
+        voteA:
+          type: string
+          description: 투표A
+          example: 투표A
+        voteB:
+          type: string
+          description: 투표B
+          example: 투표B
+        voteDeadline:
+          type: string
+          description: 투표 마감일
+          format: date-time
+      description: 투표 생성 폼
+      example:
+        vote_a: 투표A
+        vote_b: 투표B
+        vote_deadline: 2025-03-27 00:00
+    PostCreateResponse:
+      type: object
+      properties:
+        postId:
+          type: integer
+          format: int64
+        voteId:
+          type: integer
+          format: int64
+    BalanceGameVoteRequest:
+      type: object
+      properties:
+        gameDate:
+          type: string
+          format: date
+        choice:
+          type: string
+          enum:
+          - A
+          - B
     MyPageResponseDto:
       type: object
       properties:
